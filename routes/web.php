@@ -1,10 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route Authentication
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/register', 'index')->name('register');
+    Route::post('/dang-ki', 'store')->name('register.store');
+    Route::get('/login', 'login')->name('login');
+    Route::post('/login-store', 'loginInfo')->name('login.store');
+});
+
+
 
 Route::prefix('product')->group(function () {
     Route::get('/', function () {
