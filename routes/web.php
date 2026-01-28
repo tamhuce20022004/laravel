@@ -42,6 +42,16 @@ Route::get('/banco/{n}', function ($n) {
     }
     return view('banco', ['n' => $n]);
 });
+Route::get('/nhap-tuoi', function () {
+    return view('sinhvien.age');
+})->name('age.form');
+// Route xử lý lưu session (POST)
+Route::post('/luu-tuoi', [LoginController::class, 'storeAge'])->name('age.store');
+
+// Route này sẽ bị chặn nếu Session tuổi < 18 hoặc chưa nhập tuổi
+Route::get('/noi-dung-nguoi-lon', function () {
+    return "Chào mừng! Bạn đã đủ 18 tuổi để xem trang này.";
+})->middleware('check.age');
 
 Route::fallback(function () {
     return view('errors.404');

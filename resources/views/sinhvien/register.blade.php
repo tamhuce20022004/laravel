@@ -102,27 +102,55 @@
 </head>
 <body>
     <div class="container">
-        <h2>Đăng Kí</h2>
-        
-        <form action="/dang-ki" method="POST">
-            @csrf
-            
-            <div class="form-group">
-                <label for="username">Tên Đăng Nhập</label>
-                <input type="text" id="username" name="username" required placeholder="Nhập tên đăng nhập">
+        <h2>Đăng Ký Tài Khoản</h2>
+        <p class="message">Vui lòng điền thông tin để tạo tài khoản mới</p>
+
+        <form action="{{ route('register.store') }}" method="POST">
+            @csrf <div class="form-group">
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Nhập tên đăng nhập" required>
             </div>
-            
+
             <div class="form-group">
-                <label for="password">Mật Khẩu</label>
-                <input type="password" id="password" name="password" required placeholder="Nhập mật khẩu">
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
             </div>
-            
-            <button type="submit">Đăng Kí</button>
+
+            <div class="form-group">
+                <label for="repass">Nhập lại mật khẩu:</label>
+                <input type="password" id="repass" name="repass" class="form-control" placeholder="Xác nhận mật khẩu" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mssv">Mã số sinh viên (MSSV):</label>
+                <input type="text" id="mssv" name="mssv" class="form-control" placeholder="Ví dụ: B1901234" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lopmonhoc">Lớp môn học:</label>
+                <input type="text" id="lopmonhoc" name="lopmonhoc" class="form-control" placeholder="Ví dụ: CT101-01" required>
+            </div>
+
+            <div class="form-group">
+                <label>Giới tính:</label>
+                <div class="radio-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="gioitinh" value="Nam" checked> Nam
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="gioitinh" value="Nu"> Nữ
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="gioitinh" value="Khac"> Khác
+                    </label>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn-primary">Đăng Ký</button>
+                <a href="/login" class="btn-secondary">Đã có tài khoản? Đăng nhập</a>
+            </div>
         </form>
-        
-        <div class="form-footer">
-            Đã có tài khoản? <a href="/login">Đăng Nhập</a>
-        </div>
     </div>
 </body>
 </html>
