@@ -23,42 +23,46 @@
         <a href="{{ route('product.add') }}" class="btn-add">+ Thêm mới sản phẩm</a>
     </div>
 
+    @if($products->count() > 0)
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Tồn kho</th>
                 <th>Mô tả</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($products as $product)
             <tr>
-                <td class="product-id">001</td>
-                <td>Laptop Dell XPS 13</td>
-                <td>Laptop cao cấp với màn hình FHD, bộ xử lý Intel Core i7, RAM 16GB</td>
+                <td class="product-id">{{ $product->id }}</td>
+                <td>{{ $product->name }}</td>
+                <td>{{ number_format($product->price, 0, ',', '.') }}₫</td>
+                <td>{{ $product->stock }}</td>
+                <td>{{ Str::limit($product->description, 50) }}</td>
+                <td>
+                    @if($product->is_active)
+                        <span style="color: green; font-weight: 600;">✓ Đang bán</span>
+                    @else
+                        <span style="color: red; font-weight: 600;">✗ Ngừng bán</span>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('product.show', $product->id) }}" style="color: #007bff; text-decoration: none;">Chi tiết</a>
+                </td>
             </tr>
-            <tr>
-                <td class="product-id">002</td>
-                <td>iPhone 15 Pro</td>
-                <td>Điện thoại thông minh Apple với camera 48MP, chip A17 Pro, màn hình OLED 6.1 inch</td>
-            </tr>
-            <tr>
-                <td class="product-id">003</td>
-                <td>Samsung Galaxy Tab S9</td>
-                <td>Máy tính bảng Samsung với màn hình AMOLED 11 inch, chip Snapdragon 8 Gen 2</td>
-            </tr>
-            <tr>
-                <td class="product-id">004</td>
-                <td>Sony WH-1000XM5</td>
-                <td>Tai nghe chống ồn chủ động với pin 40 giờ, kết nối Bluetooth 5.3</td>
-            </tr>
-            <tr>
-                <td class="product-id">005</td>
-                <td>iPad Air 2024</td>
-                <td>iPad Air với chip M2, màn hình Liquid Retina 11 inch, hỗ trợ Apple Pencil</td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
+    @else
+    <div style="text-align: center; padding: 40px; color: #999;">
+        <p>Không có sản phẩm nào trong database</p>
+    </div>
+    @endif
 
 </body>
 </html>

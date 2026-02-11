@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,19 +19,17 @@ Route::controller(LoginController::class)->group(function () {
 
 
 
-Route::prefix('product')->group(function () {
-    Route::get('/', function () {
-        return view('product.index');
-    });
+Route::prefix('product')->controller(ProductController::class)->group(function () {
+    Route::get('/', 'index')->name('product.index');
+    Route::get('/{id}', 'show')->name('product.show')->where('id', '[0-9]+');
 
     Route::get('/add', function () {
         return view('product.add');
     })->name('product.add');
-
-    Route::get('/{id?}', function ($id = '123') {
-        return "Product ID: " . $id;
-    })->where('id', '.*');
 });
+
+// Route Category
+Route::resource('categories', CategoryController::class);
 
 Route::get('/sinhvien/{name?}/{mssv?}', function ($name = 'Luong Xuan Hieu', $mssv = '123456') {
     return view('sinhvien.info', ['name' => $name, 'mssv' => $mssv]);
@@ -52,6 +52,10 @@ Route::post('/luu-tuoi', [LoginController::class, 'storeAge'])->name('age.store'
 Route::get('/noi-dung-nguoi-lon', function () {
     return "Chào mừng! Bạn đã đủ 18 tuổi để xem trang này.";
 })->middleware('check.age');
+Route::get('/admin', function () {
+    $products = \App\Models\Product::all();
+    return view('layout.admin', ['products' => $products]);
+});
 
 Route::fallback(function () {
     return view('errors.404');
